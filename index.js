@@ -1,15 +1,15 @@
 'use strict';
 
-function getParks(finalInput, options) {
-  fetch(finalInput, options)
+function getParks(finalInput) {
+  fetch(finalInput)
     .then(function(response) {
       return response.json()
     })
     .then(function(responseJson) {
       console.log(responseJson)
-      if (responseJson.message === 'Not Found') {
+      if (responseJson.data.length === 0) {
         $('.results-list').empty();
-        $('.errorMessage').replaceWith(`<p class='errorMessage'>${responseJson.message}. Please try again.</p>`);
+        $('.errorMessage').replaceWith(`<p class='errorMessage'>Results not found. Please try again.</p>`);
         $('.results-title').addClass('hidden');
         $('.results').removeClass('hidden');
       } else {
@@ -48,14 +48,11 @@ function formURL(finalStates) {
 function addStates() {
   let stateInput = $('#stateInput').val();
   let stateInputTwo = $('#stateInputTwo').val();
-  console.log(typeof stateInputTwo)
   let finalStates = ' '; 
   if (stateInputTwo === '') {
-    console.log('Only one state')
     finalStates = stateInput;
   } else {
     finalStates = stateInput + '&statecode=' + stateInputTwo;
-    console.log(finalStates);
   }
   formURL(finalStates);
 }
