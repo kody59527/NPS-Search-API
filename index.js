@@ -7,23 +7,38 @@ function getParks(finalInput) {
     })
     .then(function(responseJson) {
       console.log(responseJson)
-      if (responseJson.data.length === 0) {
+      if (responseJson.total === 0) {
         $('.results-list').empty();
         $('.errorMessage').replaceWith(`<p class='errorMessage'>Results not found. Please try again.</p>`);
         $('.results-title').addClass('hidden');
         $('.results').removeClass('hidden');
       } else {
         $('.errorMessage').addClass('hidden');
-        displayResults(responseJson);
+        clearResults(responseJson);
       }
     })
-    .catch(error => alert('Something went wrong. Please try again later.'));
+    .catch(error => console.log(error));
 }
 
-function displayResults(responseJson) {
+function resultsDisplayed(responseJson) {
+  let resultsTotal = 0;
+  if (responseJson.total > responseJson.limit) {
+    resultsTotal = responseJson.limit;
+  } else {
+    resultsTotal = responseJson.total;
+  }
+  displayResults(responseJson, resultsTotal)
+}
+
+function clearResults(responseJson) {
   $('.results-list').empty();
   $('.results-title').removeClass('hidden');
-  for (let i = responseJson.start; i < (responseJson.limit + 1); i++) {
+  resultsDisplayed(responseJson);
+}
+
+function displayResults(responseJson, resultsTotal) {
+  for (let i = 0; i < resultsTotal; i++) {
+    console.log(`${i} out of ${resultsTotal - 1}`);
     $('.results-list').append(`<h3>${responseJson.data[i].fullName}</h3> 
     <p>${responseJson.data[i].description}</p> 
     <a href="${responseJson.data[i].url}">More Infomation</a></p>`);
