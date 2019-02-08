@@ -24,10 +24,13 @@ function getParks(stateInput, options) {
 }
 
 function displayResults(responseJson) {
+  console.log(`${responseJson.data[0].fullName} ${responseJson.data[3].description} ${responseJson.data[3].url}`)
   $('.results-list').empty();
   $('.results-title').removeClass('hidden');
-  for (let i = 0; i < responseJson.length; i++) {
-    $('.results-list').append(`<p>Park Name: ${responseJson[i].name} <a href="${responseJson[i].url}">Link</a></p>`);
+  for (let i = 0; i < responseJson.data.length; i++) {
+  $('.results-list').append(`<h3>${responseJson.data[i].fullName}</h3> 
+    <p>${responseJson.data[i].description}</p> 
+    <a href="${responseJson.data[i].url}">More Infomation</a></p>`);
   }
   $('.results').removeClass('hidden');
 }
@@ -38,7 +41,7 @@ function watchForm() {
     let stateInput = $('.stateInput').val();
     let maxResults = $('.maxResults').val();
     let finalInput = `https://api.nps.gov/api/v1/parks?stateCode=MO&limit=10`; 
-    getRepos(finalInput, maxResults);
+    getParks(finalInput, maxResults);
   });
 }
 

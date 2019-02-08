@@ -30,3 +30,9 @@ body {
 .results-img {
   margin-top: 5vh;
 }
+
+form label {
+  display: block;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
