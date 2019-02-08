@@ -1,10 +1,7 @@
 'use strict';
 
-
-const apiKey = 'U4N1OSnFxeDl8IxdPwpTktal1Kqq6lDhsq8l7uCs';
-
-function getParks(stateInput, options) {
-  fetch(stateInput, options)
+function getParks(finalInput, options) {
+  fetch(finalInput, options)
     .then(function(response) {
       return response.json()
     })
@@ -24,11 +21,12 @@ function getParks(stateInput, options) {
 }
 
 function displayResults(responseJson) {
-  console.log(`${responseJson.data[0].fullName} ${responseJson.data[3].description} ${responseJson.data[3].url}`)
+  console.log(`${responseJson.start} ${responseJson.limit}`)
   $('.results-list').empty();
   $('.results-title').removeClass('hidden');
-  for (let i = 0; i < responseJson.data.length; i++) {
-  $('.results-list').append(`<h3>${responseJson.data[i].fullName}</h3> 
+  for (let i = responseJson.start; i < (responseJson.limit + 1); i++) {
+    console.log(i);
+    $('.results-list').append(`<h3>${responseJson.data[i].fullName}</h3> 
     <p>${responseJson.data[i].description}</p> 
     <a href="${responseJson.data[i].url}">More Infomation</a></p>`);
   }
@@ -38,10 +36,11 @@ function displayResults(responseJson) {
 function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
-    let stateInput = $('.stateInput').val();
-    let maxResults = $('.maxResults').val();
-    let finalInput = `https://api.nps.gov/api/v1/parks?stateCode=MO&limit=10`; 
-    getParks(finalInput, maxResults);
+    let stateInput = $('#stateInput').val();
+    let maxResults = $('#maxResults').val();
+    const apiKey = 'U4N1OSnFxeDl8IxdPwpTktal1Kqq6lDhsq8l7uCs';
+    let finalInput = `https://api.nps.gov/api/v1/parks?stateCode=${stateInput}&limit=${maxResults}&api_key=${apiKey}`; 
+    getParks(finalInput);
   });
 }
 
