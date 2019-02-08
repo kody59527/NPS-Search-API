@@ -13,8 +13,10 @@
         <h1>Search for a National Park</h1>
 
         <form>
-          <label for="stateInput">State Abbrevation (maximum of two states, seperated by comma)</label>
+          <label for="stateInput">State Abbrevation</label>
           <input required type="input" name="stateInput" id="stateInput" placeholder="ex. MO or CA or NV">
+          <label for="stateInputTwo">(Optional) Second State</label>
+          <input type="input" name="stateInputTwo" id="stateInputTwo" placeholder="ex. MO or CA or NV">
           <label for="maxResults">Maximum results</label>
           <input type="number" name="maxResults" value="10" id="maxResults" min="1" max="10">
           <input type='submit' value='submit'>

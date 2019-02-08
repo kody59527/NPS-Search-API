@@ -21,11 +21,9 @@ function getParks(finalInput, options) {
 }
 
 function displayResults(responseJson) {
-  console.log(`${responseJson.start} ${responseJson.limit}`)
   $('.results-list').empty();
   $('.results-title').removeClass('hidden');
   for (let i = responseJson.start; i < (responseJson.limit + 1); i++) {
-    console.log(i);
     $('.results-list').append(`<h3>${responseJson.data[i].fullName}</h3> 
     <p>${responseJson.data[i].description}</p> 
     <a href="${responseJson.data[i].url}">More Infomation</a></p>`);
@@ -33,15 +31,33 @@ function displayResults(responseJson) {
   $('.results').removeClass('hidden');
 }
 
-function watchForm() {
+function watchForm(finalInput) {
   $('form').submit(event => {
     event.preventDefault();
-    let stateInput = $('#stateInput').val();
-    let maxResults = $('#maxResults').val();
-    const apiKey = 'U4N1OSnFxeDl8IxdPwpTktal1Kqq6lDhsq8l7uCs';
-    let finalInput = `https://api.nps.gov/api/v1/parks?stateCode=${stateInput}&limit=${maxResults}&api_key=${apiKey}`; 
-    getParks(finalInput);
+    addStates();
   });
+}
+
+function formURL(finalStates) {
+  let maxResults = $('#maxResults').val();
+  const apiKey = 'U4N1OSnFxeDl8IxdPwpTktal1Kqq6lDhsq8l7uCs';
+  let finalInput = `https://api.nps.gov/api/v1/parks?stateCode=${finalStates}&limit=${maxResults}&api_key=${apiKey}`; 
+  getParks(finalInput);
+}
+
+function addStates() {
+  let stateInput = $('#stateInput').val();
+  let stateInputTwo = $('#stateInputTwo').val();
+  console.log(typeof stateInputTwo)
+  let finalStates = ' '; 
+  if (stateInputTwo === '') {
+    console.log('Only one state')
+    finalStates = stateInput;
+  } else {
+    finalStates = stateInput + '&statecode=' + stateInputTwo;
+    console.log(finalStates);
+  }
+  formURL(finalStates);
 }
 
 $(function() {
