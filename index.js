@@ -11,7 +11,7 @@ function getParks(stateInput, options) {
     .then(function(responseJson) {
       console.log(responseJson)
       if (responseJson.message === 'Not Found') {
-        $('.results-repo').empty();
+        $('.results-list').empty();
         $('.errorMessage').replaceWith(`<p class='errorMessage'>${responseJson.message}. Please try again.</p>`);
         $('.results-title').addClass('hidden');
         $('.results').removeClass('hidden');
@@ -24,10 +24,10 @@ function getParks(stateInput, options) {
 }
 
 function displayResults(responseJson) {
-  $('.results-repo').empty();
+  $('.results-list').empty();
   $('.results-title').removeClass('hidden');
   for (let i = 0; i < responseJson.length; i++) {
-    $('.results-repo').append(`<p>Repo Name: ${responseJson[i].name} <a href="${responseJson[i].url}">Link</a></p>`);
+    $('.results-list').append(`<p>Park Name: ${responseJson[i].name} <a href="${responseJson[i].url}">Link</a></p>`);
   }
   $('.results').removeClass('hidden');
 }
@@ -37,7 +37,7 @@ function watchForm() {
     event.preventDefault();
     let stateInput = $('.stateInput').val();
     let maxResults = $('.maxResults').val();
-    let finalInput = `https://api.nps.gov/api/v1/parks?${stateInput}`; 
+    let finalInput = `https://api.nps.gov/api/v1/parks?stateCode=MO&limit=10`; 
     getRepos(finalInput, maxResults);
   });
 }
